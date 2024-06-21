@@ -4,11 +4,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+@SuppressWarnings("deprecation")
 @Configuration
 public class SecurityConfig {
 	//Configuración por default de Spring Security
@@ -41,19 +41,30 @@ public class SecurityConfig {
 		return http.build();
 	}
 	
-	@Bean
-	InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+//	@Bean
+//	InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+//
+//		UserDetails admin = User.withUsername("admin")
+//				.password("password")
+//				.authorities("ADMIN")
+//				.build();
+//		
+//		UserDetails user = User.withUsername("user")
+//				.password("password")
+//				.authorities("USER")
+//				.build();
+//		
+//		return new InMemoryUserDetailsManager(admin, user);
+//	}
+	
+//	@Bean
+//	UserDetailsService userDetailsService(DataSource dataSource) {
+//		return new JdbcUserDetailsManager(dataSource);
+//	}
 
-		UserDetails admin = User.withUsername("admin")
-				.password("password")
-				.authorities("ADMIN")
-				.build();
-		
-		UserDetails user = User.withUsername("user")
-				.password("password")
-				.authorities("USER")
-				.build();
-		
-		return new InMemoryUserDetailsManager(admin, user);
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
 	}
+	
 }
