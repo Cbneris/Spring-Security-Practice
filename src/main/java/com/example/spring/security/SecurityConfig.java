@@ -4,10 +4,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+@SuppressWarnings("deprecation")
 @Configuration
 public class SecurityConfig {
 	
@@ -23,10 +24,10 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
 	
 	//Configuración por default de Spring Security
 //	@Bean
@@ -68,9 +69,9 @@ public class SecurityConfig {
 //		return new JdbcUserDetailsManager(dataSource);
 //	}
 
-//	@Bean
-//	PasswordEncoder passwordEncoder() {
-//		return NoOpPasswordEncoder.getInstance();
-//	}
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
+	}
 	
 }
