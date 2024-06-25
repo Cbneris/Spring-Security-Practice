@@ -1,5 +1,7 @@
 package com.example.spring.security;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -7,6 +9,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -20,8 +25,30 @@ public class SecurityConfig {
 				.anyRequest().permitAll())
 			.formLogin(Customizer.withDefaults())
 			.httpBasic(Customizer.withDefaults());
+		
+		http.cors(cors -> corsConfiguration());
 
 		return http.build();
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfiguration() {
+		var config = new CorsConfiguration();
+
+		config.setAllowedOrigins(List.of("http://localhost:4200"));
+//		config.setAllowedOrigins(List.of("*"));
+		
+		config.setAllowedMethods(List.of("get", "post", "put", "delete"));
+//		config.setAllowedMethods(List.of("*"));
+		
+		config.setAllowedHeaders(List.of("*"));
+		
+		var source = new UrlBasedCorsConfigurationSource(); 
+		
+//		/**: Todo
+		source.registerCorsConfiguration("/**", config);
+		
+		return source;
 	}
 
 //    @Bean
