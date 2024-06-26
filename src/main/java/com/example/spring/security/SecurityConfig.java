@@ -21,7 +21,9 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(
 				auth -> auth
-				.requestMatchers("/loans", "/balance", "/accounts", "/cards").authenticated()
+				//.requestMatchers("/loans", "/balance", "/accounts", "/cards").authenticated()
+				.requestMatchers("/loans", "/balance").hasRole("USER")
+				.requestMatchers("/cards", "/accounts").hasRole("ADMIN")
 				.anyRequest().permitAll())
 			.formLogin(Customizer.withDefaults())
 			.httpBasic(Customizer.withDefaults());
